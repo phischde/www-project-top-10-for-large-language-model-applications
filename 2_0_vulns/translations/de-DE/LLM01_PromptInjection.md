@@ -2,34 +2,34 @@
 
 ### Beschreibung
 
-Eine Prompt Injection-Schwachstelle tritt auf, wenn Eingabeaufforderungen das Verhalten oder die Ausgabe des LLM auf unerwünschte Weise verändern. Diese Eingaben können sich auf das Modell auswirken, selbst wenn sie für den Menschen nicht wahrnehmbar sind. Daher müssen Eingabeaufforderungen nicht für den Menschen sichtbar/lesbar sein, solange der Inhalt vom Modell verarbeitet wird.
+Eine Prompt Injection-Schwachstelle tritt auf, wenn die Prompts der Benutzer das Verhalten oder die Ausgabe des LLMs auf unerwünschte Weise verändern. Diese Eingaben können sich auf das Modell auswirken, selbst wenn sie für den Menschen nicht wahrnehmbar sind. Daher müssen Prompt Injections für Menschen nicht unbedingt sichtbar oder lesbar sein, solange der Inhalt vom Modell verarbeitet wird. 
 
-Prompt Injection-Schwachstellen bestehen darin, wie Modelle Eingabeaufforderungen verarbeiten und wie Eingaben das Modell dazu zwingen können, Eingabeaufforderungsdaten fälschlicherweise an andere Teile des Modells weiterzugeben, was möglicherweise dazu führt, dass diese gegen Richtlinien verstoßen, schädliche Inhalte generieren, unbefugten Zugriff ermöglichen oder kritische Entscheidungen beeinflussen. Während Techniken wie Retrieval Augmented Generation (RAG) und Feinabstimmung darauf abzielen, die Ergebnisse von LLM relevanter und genauer zu machen, zeigen Forschungsergebnisse, dass sie Prompt Injection-Schwachstellen nicht vollständig beheben.
+Prompt Injection-Schwachstellen bestehen darin, wie Modelle Prompts verarbeiten und wie Eingaben das Modell dazu zwingen können, Prompts fälschlicherweise an andere Teile des Modells weiterzugeben, was möglicherweise dazu führt, dass diese gegen Vorgaben verstoßen, schädliche Inhalte generieren, unbefugten Zugriff ermöglichen oder kritische Entscheidungen beeinflussen. Während Techniken wie Retrieval Augmented Generation (RAG) und Feinabstimmung darauf abzielen, die Ergebnisse von LLMs relevanter und genauer zu machen, zeigen Forschungsergebnisse, dass sie Prompt Injection-Schwachstellen nicht vollständig beheben.
 
-Prompt Injection und Jailbreaking sind zwar verwandte Konzepte im Bereich der LLM-Sicherheit, werden aber oft synonym verwendet. Bei Prompt Injection werden Modellantworten durch spezifische Eingaben manipuliert, um ihr Verhalten zu ändern, was auch die Umgehung von Sicherheitsmaßnahmen beinhalten kann. Jailbreaking ist eine Form der Prompt Injection, bei der der Angreifer Eingaben vornimmt, die dazu führen, dass das Modell seine Sicherheitsprotokolle vollständig missachtet. Entwickler können Sicherheitsvorkehrungen in System Prompts und die Eingabeverarbeitung integrieren, um Prompt Injection-Angriffe zu entschärfen. Eine wirksame Verhinderung von Jailbreaking erfordert jedoch fortlaufende Aktualisierungen der Trainings- und Sicherheitsmechanismen des Modells.
+Weil Prompt Injection und Jailbreaking verwandte Konzepte im Bereich der LLM-Sicherheit sind, werden sie oft synonym verwendet. Bei Prompt Injection werden Modellantworten durch spezifische Eingaben manipuliert, um ihr Verhalten zu ändern, was auch die Umgehung von Sicherheitsmaßnahmen beinhalten kann. Jailbreaking ist eine Form der Prompt Injection, bei der der Angreifer Eingaben vornimmt, die dazu führen, dass das Modell seine Sicherheitsvorkehrungen vollständig missachtet. Entwickler können Schutzmaßnahmen in System Prompts und die Eingabeverarbeitung integrieren, um Prompt Injection-Angriffe zu entschärfen. Eine wirksame Verhinderung von Jailbreaking erfordert jedoch fortlaufende Aktualisierungen der Trainings- und Sicherheitsmechanismen des Modells.
 
 ### Arten von Prompt Injection-Schwachstellen
 
 #### Direkte Prompt Injections
-Direkte Prompt Injections treten auf, wenn die Eingabe eines Benutzers das Verhalten des Modells auf unbeabsichtigte oder unerwartete Weise direkt verändert. Die Eingabe kann entweder absichtlich (d. h. ein böswilliger Akteur erstellt absichtlich eine Eingabeaufforderung, um das Modell auszunutzen) oder unbeabsichtigt (d. h. ein Benutzer gibt versehentlich eine Eingabe ein, die ein unerwartetes Verhalten auslöst) erfolgen.
+Direkte Prompt Injections treten auf, wenn die Eingabe eines Benutzers das Verhalten des Modells auf unbeabsichtigte oder unerwartete Weise direkt verändert. Die Eingabe kann entweder absichtlich erfolgen (d. h. ein böswilliger Akteur erstellt absichtlich eine Eingabeaufforderung, um das Modell auszunutzen) oder unabsichtlich (d. h. ein Benutzer gibt versehentlich eine Eingabe ein, die ein unerwartetes Verhalten auslöst).
 
 #### Indirekte Prompt Injections
-Indirekte „Prompt Injections“ treten auf, wenn ein LLM Eingaben von externen Quellen wie Websites oder Dateien entgegennimmt. Der Inhalt kann Daten in externen Inhalten enthalten, die bei der Interpretation durch das Modell das Verhalten des Modells auf unbeabsichtigte oder unerwartete Weise verändern. Wie direkte Injektionen können auch indirekte Injektionen entweder beabsichtigt oder unbeabsichtigt sein.
+Indirekte Prompt Injections treten auf, wenn ein LLM Eingaben von externen Quellen wie Webseiten oder Dateien entgegennimmt. Der Inhalt kann Daten in externen Inhalten enthalten, die bei der Interpretation durch das Modell das Verhalten des Modells auf unbeabsichtigte oder unerwartete Weise verändern. Wie direkte Injektionen können auch indirekte Injektionen entweder beabsichtigt oder unbeabsichtigt sein.
 
-Die Schwere und Art der Auswirkungen eines erfolgreichen Angriffs durch Prompt Injection können sehr unterschiedlich sein und hängen weitgehend vom geschäftlichen Kontext, in dem das Modell eingesetzt wird, und von der Agentur, mit der das Modell entwickelt wurde, ab. Im Allgemeinen kann Prompt Injection jedoch zu unbeabsichtigten Ergebnissen führen, einschließlich, aber nicht beschränkt auf:
+Die Schwere und Art der Auswirkungen eines erfolgreichen Angriffs durch Prompt Injection können sehr unterschiedlich sein und hängen weitgehend vom geschäftlichen Kontext, in dem das Modell eingesetzt wird, als auch vom Grad der Autonomie, mit der das Modell entwickelt wurde, ab. Im Allgemeinen kann Prompt Injection jedoch zu unbeabsichtigten Ergebnissen führen, einschließlich, aber nicht beschränkt auf:
 
-- Offenlegung sensibler Informationen
+- Offenlegung vertraulicher Informationen
 - Offenlegung sensibler Informationen über die KI-Systeminfrastruktur oder Systemaufforderungen
 - Manipulation von Inhalten, die zu falschen oder verzerrten Ergebnissen führt
 - Bereitstellung von nicht autorisiertem Zugriff auf Funktionen, die dem LLM zur Verfügung stehen
 - Ausführung beliebiger Befehle in verbundenen Systemen
 - Manipulation kritischer Entscheidungsprozesse
 
-Der Aufstieg der multimodalen KI, die mehrere Datentypen gleichzeitig verarbeitet, birgt einzigartige Risiken durch die Prompt Injection. Böswillige Akteure könnten Interaktionen zwischen den Modalitäten ausnutzen, indem sie beispielsweise Anweisungen in Bildern verstecken, die harmlosen Text begleiten. Die Komplexität dieser Systeme vergrößert die Angriffsfläche. Multimodale Modelle können auch anfällig für neuartige modusübergreifende Angriffe sein, die mit den derzeitigen Techniken nur schwer zu erkennen und abzuwehren sind. Robuste multimodalspezifische Abwehrmaßnahmen sind ein wichtiger Bereich für weitere Forschung und Entwicklung.
+Der Aufstieg multimodaler KI, die mehrere Datentypen gleichzeitig verarbeiten, birgt spezifische Risiken durch die Prompt Injection. Böswillige Akteure könnten Interaktionen zwischen den Modalitäten ausnutzen, indem sie beispielsweise Anweisungen in Bildern verstecken, die harmlosen Text begleiten. Die Komplexität dieser Systeme vergrößert die Angriffsfläche. Multimodale Modelle können auch anfällig für neuartige, modusübergreifende Angriffe sein, die mit den derzeitigen Techniken nur schwer zu erkennen und abzuwehren sind. Robuste multimodalspezifische Abwehrmaßnahmen sind ein wichtiger Bereich für weitere Forschung und Entwicklung.
 
 ### Präventions- und Mitigationsstrategien
 
-Aufgrund der Natur der generativen KI sind Schwachstellen bei Prompt Injections möglich. Angesichts des stochastischen Einflusses, der der Funktionsweise von Modellen zugrunde liegt, ist unklar, ob es absolut sichere Methoden zur Verhinderung von Prompt Injections gibt. Die folgenden Maßnahmen können jedoch die Auswirkungen von Prompt Injections abmildern
+Aufgrund der Natur der generativen KI sind Schwachstellen bei Prompt Injections möglich. Angesichts des stochastischen Einflusses, der der Funktionsweise von Modellen zugrunde liegt, ist unklar, ob es absolut sichere Methoden zur Verhinderung von Prompt Injections gibt. Die folgenden Maßnahmen können jedoch die Auswirkungen von Prompt Injections abmildern:
 
 #### 1. Modellverhalten einschränken
   Gib spezifische Anweisungen zur Rolle, zu den Fähigkeiten und zu den Beschränkungen des Modells innerhalb des System Prompts. Erzwinge die strikte Einhaltung des Kontexts, beschränke die Antworten auf bestimmte Aufgaben oder Themen und weise das Modell an, Versuche zur Änderung der Kernanweisungen zu ignorieren.
@@ -58,8 +58,8 @@ Aufgrund der Natur der generativen KI sind Schwachstellen bei Prompt Injections 
   Ein Angreifer ändert ein Dokument in einem Repository, das von einer Retrieval-Augmented Generation (RAG)-Anwendung verwendet wird. Wenn die Abfrage eines Benutzers den geänderten Inhalt zurückgibt, ändern die bösartigen Anweisungen die Ausgabe des LLM und erzeugen irreführende Ergebnisse.
 #### Szenario Nr. 5: Code-Injection
   Ein Angreifer nutzt eine Schwachstelle (CVE-2024-5184) in einem E-Mail-Assistenten mit LLM-Unterstützung aus, um schädliche Eingabeaufforderungen einzufügen, die den Zugriff auf vertrauliche Informationen und die Manipulation von E-Mail-Inhalten ermöglichen.
-#### Szenario Nr. 6: Aufteilung der Payload
-  Ein Angreifer lädt einen Lebenslauf mit aufgespaltenen bösartigen Anweisungen hoch. Wenn ein LLM zur Bewertung des Kandidaten verwendet wird, manipulieren die kombinierten Anweisungen die Antwort des Modells, was trotz des tatsächlichen Inhalts des Lebenslaufs zu einer positiven Empfehlung führt.
+#### Szenario Nr. 6: Aufteilung des Payloads
+  Ein Angreifer lädt einen Lebenslauf mit mehrteiligen, bösartigen Anweisungen hoch. Wenn ein LLM zur Bewertung des Kandidaten verwendet wird, manipulieren die kombinierten Anweisungen die Antwort des Modells, was ungeachtet des Inhalts des Lebenslaufs zu einer positiven Empfehlung führt.
 #### Szenario Nr. 7: Multimodale Injektion
   Ein Angreifer bettet eine schädliche Eingabeaufforderung in ein Bild ein, das einen harmlosen Text begleitet. Wenn eine multimodale KI das Bild und den Text gleichzeitig verarbeitet, ändert die versteckte Eingabeaufforderung das Verhalten des Modells, was möglicherweise zu nicht autorisierten Aktionen oder zur Offenlegung sensibler Informationen führt.
 #### Szenario Nr. 8: Adversarial Suffix
