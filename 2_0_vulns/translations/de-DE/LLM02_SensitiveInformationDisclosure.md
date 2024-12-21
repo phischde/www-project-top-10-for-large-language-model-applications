@@ -12,7 +12,7 @@ Um dieses Risiko zu verringern, sollten LLM-Anwendungen eine angemessene Datenbe
 #### 1. Verlust personenbezogener Daten
  Bei Interaktionen mit dem LLM können personenbezogene Daten offengelegt werden.
 #### 2. Offenlegung proprietärer Algorithmen
-Schlecht konfigurierte Modellausgaben können proprietäre Algorithmen oder Daten offenlegen. Durch die Offenlegung von Trainingsdaten können Modelle Inversionsangriffen ausgesetzt werden, bei denen Angreifer sensible Informationen extrahieren oder Eingaben rekonstruieren. Wie beispielsweise beim „Proof Pudding“-Angriff (CVE-2019-20634) gezeigt wurde, erleichterten offengelegte Trainingsdaten die Extraktion und Inversion von Modellen, sodass Angreifende Sicherheitskontrollen in Algorithmen für maschinelles Lernen umgehen und E-Mail-Filter überlisten konnten.
+Schlecht konfigurierte Modellausgaben können proprietäre Algorithmen oder Daten offenlegen. Durch die Offenlegung von Trainingsdaten können Modelle Inversionsangriffen ausgesetzt werden, bei denen Angreifende sensible Informationen extrahieren oder Eingaben rekonstruieren. Wie beispielsweise beim „Proof Pudding“-Angriff (CVE-2019-20634) gezeigt wurde, erleichterten offengelegte Trainingsdaten die Extraktion und Inversion von Modellen, sodass Angreifende Sicherheitskontrollen in Algorithmen für maschinelles Lernen umgehen und E-Mail-Filter überlisten konnten.
 #### 3. Offenlegung sensibler Geschäftsdaten
 Die generierten Antworten können versehentlich vertrauliche Geschäftsinformationen enthalten.
 
