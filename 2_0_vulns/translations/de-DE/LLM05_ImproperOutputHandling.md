@@ -2,7 +2,7 @@
 
 ### Beschreibung
 
-Die falsche Verarbeitung von Ausgaben bezieht sich insbesondere auf eine unzureichende Validierung, Bereinigung und Verarbeitung der von großen Sprachmodellen erzeugten Ausgaben, bevor sie an andere Komponenten und Systeme weitergegeben werden. Da LLM-generierte Inhalte durch Eingabeaufforderungen gesteuert werden können, ähnelt dieses Verhalten dem indirekten Zugriff auf zusätzliche Funktionen durch die Benutzer.
+Die falsche Verarbeitung von Ausgaben bezieht sich insbesondere auf eine unzureichende Validierung, Bereinigung und Verarbeitung der von großen Sprachmodellen erzeugten Ausgaben, bevor sie an andere Komponenten und Systeme weitergegeben werden. Da LLM-generierte Inhalte durch Prompts gesteuert werden können, ähnelt dieses Verhalten dem indirekten Zugriff auf zusätzliche Funktionen durch Benutzende.
 “Falsche Ausgabeverarbeitung" unterscheidet sich von “Overreliance" dadurch, dass es sich mit LLM-generierten Ausgaben befasst, bevor sie nachgelagert werden, während sich Overreliance auf allgemeinere Bedenken bezüglich der übermäßigen Abhängigkeit von der Genauigkeit und Angemessenheit der LLM-Ausgaben konzentriert.
 Die erfolgreiche Ausnutzung einer “falsche Ausgabenverarbeitung"-Schwachstelle kann zu XSS und CSRF in Webbrowsern sowie zu SSRF, Privilegienerweiterung oder Remotecodeausführung auf Backend-Systemen führen.
 Die folgenden Bedingungen können die Auswirkungen dieser Schwachstelle verstärken:
@@ -11,7 +11,7 @@ Die folgenden Bedingungen können die Auswirkungen dieser Schwachstelle verstär
 - Erweiterungen von Drittanbietern validieren die Eingaben nicht ausreichend.
 - Fehlen einer geeigneten Ausgabekodierung für verschiedene Kontexte (z. B. HTML, JavaScript, SQL)
 - Unzureichende Überwachung und Protokollierung von LLM-Ausgaben
-- Fehlende Ratenbegrenzung oder Anomalieerkennung für die LLM-Nutzung
+- Es fehlt Rate-Limiting oder Anomalieerkennung für die LLM-Nutzung
 
 ### Gängige Beispiele für Schwachstellen
 
@@ -23,28 +23,28 @@ Die folgenden Bedingungen können die Auswirkungen dieser Schwachstelle verstär
 
 ### Präventions- und Mitigationsstrategien
 
-1. Behandle das Modell wie jeden anderen Nutzer, indem du einen Zero-Trust-Ansatz wählst und die Antworten, die das Modell an die Backend-Funktionen sendet, einer angemessenen Eingabevalidierung unterziehst.
-2. Befolge die OWASP ASVS-Richtlinien (Application Security Verification Standard), um eine wirksame Validierung und Bereinigung von Eingaben sicherzustellen.
-3. Encode die Ausgaben des Modells für die Nutzer, um die Ausführung von unerwünschtem Code durch JavaScript oder Markdown zu verhindern. OWASP ASVS bietet eine detaillierte Anleitung zur Verschlüsselung von Ausgaben.
-4. Implementiere eine kontextabhängige Kodierung der Ausgabe, je nachdem, wo die LLM-Ausgabe verwendet wird (z. B. HTML-Kodierung für Webinhalte, SQL-Escaping für Datenbankabfragen).
-5. Verwende parametrisierte Abfragen oder vorbereitete Anweisungen für alle Datenbankoperationen mit LLM-Ausgaben.
-6. Verwende strenge Content Security Policies (CSP), um das Risiko von XSS-Angriffen durch LLM-generierte Inhalte zu verringern.
-7. Implementiere robuste Protokollierungs- und Überwachungssysteme, um ungewöhnliche Muster in LLM-Ausgaben zu erkennen, die auf Missbrauchsversuche hindeuten könnten.
+1. Behandeln Sie das Modell wie andere Nutzende, indem Sie einen Zero-Trust-Ansatz wählen und die Antworten, die das Modell an die Backend-Funktionen sendet, einer angemessenen Eingabevalidierung unterziehen.
+2. Befolgen Sie die Richtlinien des OWASP Application Security Verification Standards (ASVS), um eine wirksame Validierung und Bereinigung von Eingaben sicherzustellen.
+3. Encodieren Sie die Ausgaben des Modells für Nutzende, um die Ausführung von unerwünschtem Code durch JavaScript oder Markdown zu verhindern. OWASP ASVS bietet eine detaillierte Anleitung zum Encoding von Ausgaben.
+4. Implementieren Sie eine kontextabhängige Kodierung der LLM-Ausgaben, abhängig von deren Einsatzort (z. B. HTML-Kodierung für Webinhalte, SQL-Escaping für Datenbankabfragen).
+5. Verwenden Sie parametrisierte Abfragen oder vorbereitete Anweisungen für alle Datenbankoperationen mit LLM-Ausgaben.
+6. Setzen Sie strenge Content Security Policies (CSP) ein, um das Risiko von XSS-Angriffen durch Inhalte des Modells zu minimieren.
+7. Implementieren Sie robuste Protokollierungs- und Überwachungssysteme, um ungewöhnliche Muster in den Ausgaben des Modells zu erkennen, die auf Missbrauchsversuche hinweisen könnten.
 
 ### Beispiele für Angriffsszenarien
 
 #### Szenario #1
-  Eine Anwendung nutzt eine LLM-Extension, um Antworten für eine Chatbot-Funktion zu generieren. Die Erweiterung bietet auch eine Reihe von Verwaltungsfunktionen, auf die ein anderer privilegiertes LLM Zugriff hat. Der Allzweck-LLM gibt seine Antwort ohne ordnungsgemäße Validierung der Ausgabe direkt an die Erweiterung weiter, was dazu führt, dass die Erweiterung zur Wartung abgeschaltet wird.
+Eine Anwendung nutzt eine LLM-Extension, um Antworten für eine Chatbot-Funktion zu generieren. Die Erweiterung bietet auch eine Reihe von Verwaltungsfunktionen, auf die ein anderer privilegiertes LLM Zugriff hat. Das Allzweck-LLM gibt die Antwort ohne ordnungsgemäße Validierung der Ausgabe direkt an die Erweiterung weiter, was dazu führt, dass die Erweiterung zur Wartung abgeschaltet wird.
 #### Szenario #2
-  Ein Nutzer nutzt ein von einem LLM betriebenes Tool zur Zusammenfassung einer Website, um eine kurze Zusammenfassung eines Artikels zu erstellen. Die Website enthält eine Eingabeaufforderung, die den LLM anweist, sensible Inhalte entweder von der Website oder aus der Unterhaltung des Nutzers zu erfassen. Von dort aus kann der LLM die sensiblen Daten verschlüsseln und sie ohne jegliche Output-Validierung oder Filterung an einen vom Angreifer kontrollierten Server senden.
+Eine Person nutzt ein von einem LLM betriebenes Tool zur Zusammenfassung einer Webseite, um eine kurze Zusammenfassung eines Artikels zu erstellen. Die Webseite enthält eine Eingabeaufforderung, die den LLM anweist, sensible Inhalte entweder von der Website oder aus der Unterhaltung des Nutzers zu erfassen. Von dort aus kann der LLM die sensiblen Daten verschlüsseln und sie ohne jegliche Output-Validierung oder Filterung an einen vom Angreifer kontrollierten Server senden.
 #### Szenario #3
   Ein LLM ermöglicht es Nutzern, über eine chatähnliche Funktion SQL-Abfragen für eine Backend-Datenbank zu erstellen. Ein Benutzer fordert eine Abfrage zum Löschen aller Datenbanktabellen an. Wenn die vom LLM erstellte Abfrage nicht überprüft wird, werden alle Datenbanktabellen gelöscht.
 #### Szenario #4
-  Eine Webanwendung verwendet einen LLM, um Inhalte aus Benutzertexteingaben zu generieren, ohne die Ausgabe zu bereinigen. Ein Angreifer könnte eine manipulierte Eingabeaufforderung übermitteln, die den LLM veranlasst, eine nicht bereinigte JavaScript-Nutzlast zurückzugeben, was zu XSS führt, wenn sie im Browser des Opfers dargestellt wird. Die unzureichende Validierung von Prompts ermöglichte diesen Angriff.
+  Eine Webanwendung verwendet einen LLM, um Inhalte aus Text-Eingaben von Nutzenden zu generieren, ohne die Ausgabe zu bereinigen. Ein Angreifer könnte eine manipulierte Eingabeaufforderung übermitteln, die das LLM veranlasst, einen nicht bereinigte JavaScript-Payload zurückzugeben, was zu XSS führt, wenn er im Browser des Opfers dargestellt wird. Die unzureichende Validierung von Prompts ermöglichte diesen Angriff.
 #### Szenario Nr. 5
-  Ein LLM wird verwendet, um dynamische E-Mail-Vorlagen für eine Marketingkampagne zu erstellen. Ein Angreifer manipuliert die LLM, um bösartiges JavaScript in den E-Mail-Inhalt zu integrieren. Wenn die Anwendung die LLM-Ausgabe nicht ordnungsgemäß bereinigt, kann dies zu XSS-Angriffen auf Empfänger führen, die die E-Mail in anfälligen E-Mail-Clients betrachten.
+  Ein LLM wird verwendet, um dynamische E-Mail-Vorlagen für eine Marketingkampagne zu erstellen. Angreifende manipulieren das LLM, um bösartiges JavaScript in den E-Mail-Inhalt zu integrieren. Wenn die Anwendung die LLM-Ausgabe nicht ordnungsgemäß bereinigt, kann dies zu XSS-Angriffen auf Empfänger führen, die die E-Mail in anfälligen E-Mail-Clients betrachten.
 #### Szenario #6
-  Ein LLM wird in einem Softwareunternehmen eingesetzt, um Code aus natürlichsprachlichen Eingaben zu generieren und so die Entwicklungsarbeit zu rationalisieren. Dieser Ansatz ist zwar effizient, birgt aber die Gefahr, dass sensible Informationen preisgegeben, unsichere Datenverarbeitungsmethoden entwickelt oder Schwachstellen wie SQL-Injection eingeführt werden. Die KI kann auch nicht existierende Softwarepakete vorgaukeln, was dazu führen kann, dass Entwickler/innen mit Malware infizierte Ressourcen herunterladen. Eine gründliche Überprüfung des Codes und die Verifizierung der vorgeschlagenen Pakete sind entscheidend, um Sicherheitslücken, unbefugten Zugriff und die Gefährdung des Systems zu verhindern.
+Ein LLM wird in einem Softwareunternehmen verwendet, um aus Eingaben in natürlicher Sprache Code zu generieren, mit dem Ziel, Entwicklungsaufgaben zu optimieren. Dieser Ansatz ist zwar effizient, birgt aber die Gefahr, dass sensible Informationen preisgegeben, unsichere Datenverarbeitungsmethoden entwickelt oder Schwachstellen wie SQL-Injection eingeführt werden. Die KI kann auch nicht existierende Softwarepakete vorgaukeln, was dazu führen kann, dass Entwickelnde mit Malware infizierte Ressourcen herunterladen. Eine gründliche Überprüfung des Codes und die Verifizierung der vorgeschlagenen Pakete sind entscheidend, um Sicherheitslücken, unbefugten Zugriff und die Gefährdung des Systems zu verhindern.
 
 ### Referenzlinks
 
