@@ -1,20 +1,20 @@
-## LLM08:2025 Schwachstellen bei Vektor und Einbettung
+## LLM08:2025 Schwachstellen in Vektoren und Embeddings
 
 ### Beschreibung
 
-Schwachstellen bei Vektoren und Einbettungen stellen erhebliche Sicherheitsrisiken in Systemen dar, die Retrieval Augmented Generation (RAG) mit Large Language Models (LLMs) verwenden. Schwachstellen bei der Generierung, Speicherung oder Abfrage von Vektoren und Einbettungen können durch böswillige Handlungen (absichtlich oder unabsichtlich) ausgenutzt werden, um schädliche Inhalte einzuschleusen, Modellausgaben zu manipulieren oder auf sensible Informationen zuzugreifen
+Schwachstellen in Vektoren und Embeddings stellen erhebliche Sicherheitsrisiken in Systemen dar, die Retrieval Augmented Generation (RAG) mit Large Language Models (LLMs) verwenden. Schwachstellen bei der Generierung, Speicherung oder Abfrage von Vektoren und Embeddings können durch böswillige Handlungen (absichtlich oder unabsichtlich) ausgenutzt werden, um schädliche Inhalte einzuschleusen, Modellausgaben zu manipulieren oder auf sensible Informationen zuzugreifen
 
-Retrieval Augmented Generation (RAG) ist eine Technik zur Modellanpassung, die die Leistung und kontextbezogene Relevanz von Antworten aus LLM-Anwendungen verbessert, indem vorab trainierte Sprachmodelle mit externen Wissensquellen kombiniert werden. Retrieval Augmentation verwendet Vektormechanismen und Einbettung. (Ref #1)
+Retrieval Augmented Generation (RAG) ist eine Technik zur Modellanpassung, die die Leistung und kontextbezogene Relevanz von Antworten aus LLM-Anwendungen verbessert, indem vorab trainierte Sprachmodelle mit externen Wissensquellen kombiniert werden. Retrieval Augmentation verwendet Vektormechanismen und Embeddings. (Ref #1)
 
 
 ### Gängige Beispiele für Risiken
 
 #### 1. Unbefugter Zugriff und Datenverlust
-  Unzureichende oder falsch eingestellte Zugriffskontrollen können zu unbefugtem Zugriff auf Einbettungen mit sensiblen Informationen führen. Bei mangelhafter Verwaltung könnte das Modell personenbezogene Daten, geschützte Informationen oder andere sensible Inhalte abrufen und offenlegen. Die unbefugte Nutzung von urheberrechtlich geschütztem Material oder die Nichteinhaltung von Richtlinien zur Datennutzung während der Erweiterung kann rechtliche Konsequenzen nach sich ziehen.
+  Unzureichende oder falsch eingestellte Zugriffskontrollen können zu unbefugtem Zugriff auf Embeddings mit sensiblen Informationen führen. Bei mangelhafter Verwaltung könnte das Modell personenbezogene Daten, geschützte Informationen oder andere sensible Inhalte abrufen und offenlegen. Die unbefugte Nutzung von urheberrechtlich geschütztem Material oder die Nichteinhaltung von Richtlinien zur Datennutzung während der Erweiterung kann rechtliche Konsequenzen nach sich ziehen.
 #### 2. Kontextübergreifende Informationslecks und Wissenskonflikte in der Föderation
   In mandantenfähigen Umgebungen, in denen mehrere Klassen von Benutzern oder Anwendungen dieselbe Vektordatenbank gemeinsam nutzen, besteht die Gefahr von Kontextverlusten zwischen Benutzern oder Abfragen. Fehler aufgrund von Wissenskonflikten bei der Datenföderation können auftreten, wenn Daten aus mehreren Quellen einander widersprechen (Ref. #2). Dies kann auch passieren, wenn ein LLM altes Wissen, das es während des Trainings gelernt hat, nicht durch die neuen Daten aus der Abfrageerweiterung ersetzen kann.
-#### 3. Einbettungsinversionsangriffe
-  Angreifer können Schwachstellen ausnutzen, um Einbettungen umzukehren und erhebliche Mengen an Quellinformationen wiederherzustellen, wodurch die Vertraulichkeit der Daten gefährdet wird (Ref. #3, #4). 
+#### 3. Embeddings Inversion Attacks
+  Angreifer können Schwachstellen ausnutzen, um Embeddings umzukehren und erhebliche Mengen an Quellinformationen wiederherzustellen, wodurch die Vertraulichkeit der Daten gefährdet wird (Ref. #3, #4). 
 #### 4. Data Poisoning-Angriffe
   Data Poisoning kann absichtlich durch böswillige Akteure (Ref. #5, #6, #7) oder unabsichtlich erfolgen. Vergiftete Daten können von Insidern, Eingabeaufforderungen, Data Seeding oder nicht verifizierten Datenanbietern stammen und zu manipulierten Modellausgaben führen.
 #### 5. Verhaltensänderung
@@ -23,13 +23,13 @@ Retrieval Augmented Generation (RAG) ist eine Technik zur Modellanpassung, die d
 ### Präventions- und Mitigationsstrategien
 
 #### 1. Berechtigung und Zugriffskontrolle
-  Implementiere detaillierte Zugriffskontrollen und berechtigungsbewusste Vektor- und Einbettungsspeicher. Stelle eine strikte logische und Zugriffs-Partitionierung von Datensätzen in der Vektordatenbank sicher, um unbefugten Zugriff zwischen verschiedenen Benutzerklassen oder Gruppen zu verhindern.
+Verwenden Sie detaillierte Zugriffskontrollen und berechtigungsbewusste Vektor- sowie Embeddings-Speicher. Stellen Sie eine strikt logische und zugriffsbeschränkte Partitionierung der Datensätze in der Vektordatenbank sicher, um unbefugten Zugriff zwischen verschiedenen Benutzerklassen oder Gruppen zu verhindern.
 #### 2. Datenvalidierung und Quellenauthentifizierung
-  Implementierung robuster Pipelines zur Datenvalidierung für Wissensquellen. Regelmäßige Prüfung und Validierung der Wissensdatenbank auf versteckte Codes und Datenverfälschung. Annahme von Daten nur aus vertrauenswürdigen und verifizierten Quellen.
+Implementieren Sie robuste Pipelines zur Datenvalidierung von Wissensquellen. Überprüfen und validieren Sie die Wissensdatenbank regelmäßig auf versteckte Codes und Datenverfälschung. Akzeptieren Sie Daten ausschließlich aus vertrauenswürdigen und verifizierten Quellen.
 #### 3. Datenprüfung auf Kombination und Klassifizierung
-  Wenn Daten aus verschiedenen Quellen kombiniert werden, sollte der kombinierte Datensatz gründlich überprüft werden. Kennzeichne und klassifiziere Daten innerhalb der Wissensdatenbank, um die Zugriffsebenen zu kontrollieren und Dateninkongruenzfehler zu vermeiden.
+Überprüfen Sie kombinierte Datensätze gründlich, wenn Daten aus verschiedenen Quellen zusammengeführt werden. Kennzeichnen und klassifizieren Sie Daten innerhalb der Wissensdatenbank, um Zugriffsebenen zu steuern und Dateninkongruenzfehler zu vermeiden.
 #### 4. Monitoring und Logging
-  Führe detaillierte unveränderliche Protokolle über Abrufaktivitäten, um verdächtiges Verhalten zu erkennen und umgehend darauf zu reagieren.
+Führen Sie detaillierte, unveränderliche Protokolle über alle Abrufaktivitäten. Nutzen Sie diese Protokolle, um verdächtiges Verhalten zu erkennen und umgehend darauf zu reagieren.
 
 ### Beispiele für Angriffsszenarien
 
@@ -39,7 +39,7 @@ Retrieval Augmented Generation (RAG) ist eine Technik zur Modellanpassung, die d
   Um dies zu verhindern, sollten Textextraktionstools implementiert werden, die Formatierungen ignorieren und versteckte Inhalte erkennen. Darüber hinaus müssen alle Eingabedokumente validiert werden, bevor sie der RAG-Wissensdatenbank hinzugefügt werden.  
 ###$ Szenario #2: Risiko der Zugriffskontrolle und Datenlecks durch Kombination von Daten mit unterschiedlichen
 #### Zugriffsbeschränkungen
-  In einer mandantenfähigen Umgebung, in der verschiedene Gruppen oder Klassen von Benutzern dieselbe Vektordatenbank gemeinsam nutzen, können Einbettungen einer Gruppe versehentlich als Antwort auf Abfragen des LLM einer anderen Gruppe abgerufen werden, wodurch möglicherweise sensible Geschäftsinformationen durchsickern.
+  In einer mandantenfähigen Umgebung, in der verschiedene Gruppen oder Klassen von Benutzern dieselbe Vektordatenbank gemeinsam nutzen, können Embeddings einer Gruppe versehentlich als Antwort auf Abfragen des LLM einer anderen Gruppe abgerufen werden, wodurch möglicherweise sensible Geschäftsinformationen durchsickern.
 ###@ Mitigation
   Es sollte eine Vektordatenbank mit Berechtigungserkennung implementiert werden, um den Zugriff einzuschränken und sicherzustellen, dass nur autorisierte Gruppen auf ihre spezifischen Informationen zugreifen können.
 #### Szenario #3: Verhaltensänderung des Basismodells
